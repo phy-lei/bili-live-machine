@@ -1,0 +1,16 @@
+{
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "eslint.options": {
+    //指定eslint配置文件位置
+    "overrideConfigFile": ".eslintrc.cjs" //指定项目根目录中的eslint配置文件
+  },
+  "editor.formatOnSave": true
+}
