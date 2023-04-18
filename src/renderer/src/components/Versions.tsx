@@ -10,7 +10,7 @@ function Versions(): JSX.Element {
       <li className={styles['electron-version']}>Electron v{versions.electron}</li>
       <li className="chrome-version">Chromium v{versions.chrome}</li>
       <li className="node-version">Node v{versions.node}</li>
-      <li className="v8-version">V8 v{versions.v8}</li>
+      <li className="v8-version">V8 v234{versions.v8}</li>
       <li>
         <IconStar style={{ fontSize: 24, marginRight: 20 }} />
       </li>

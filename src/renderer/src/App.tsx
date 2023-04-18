@@ -1,12 +1,6 @@
-import Versions from './components/Versions';
-import { Button } from '@arco-design/web-react';
+import Router from './router/index';
 
 function App(): JSX.Element {
-  return (
-    <div className="container">
-      <Versions></Versions>
-      <Button type="primary">Hello Arco</Button>
-    </div>
-  );
+  return <Router></Router>;
 }
 export default App;
