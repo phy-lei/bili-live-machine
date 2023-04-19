@@ -1,6 +1,8 @@
-import { Tabs, Button } from '@arco-design/web-react';
+import { Tabs } from '@arco-design/web-react';
 import { IconSettings, IconUser, IconList } from '@arco-design/web-react/icon';
 import { useNavigate } from 'react-router-dom';
+import BaseSetting from './components/BaseSetting/BaseSetting';
+import AccountLogin from './components/AccountLogin/AccountLogin';
 import styles from './styles/styles.module.less';
 
 const TabPane = Tabs.TabPane;
@@ -22,11 +24,7 @@ const Home = () => {
             </span>
           }
         >
-          <div>
-            <Button type="primary" onClick={handleClick}>
-              Primary
-            </Button>
-          </div>
+          <BaseSetting />
         </TabPane>
         <TabPane
           key="tab2"
@@ -36,7 +34,7 @@ const Home = () => {
             </span>
           }
         >
-          234
+          <AccountLogin />
         </TabPane>
         <TabPane
           key="tab3"
