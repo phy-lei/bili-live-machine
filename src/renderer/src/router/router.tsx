@@ -7,14 +7,14 @@ function setDocumentTitle(title: string) {
   document.title = `${title} - bilibili 直播助手`;
 }
 
+const lazyLoad = (children: React.ReactNode) => {
+  return <Suspense>{children}</Suspense>;
+};
+
 const routes = [
   {
     path: '/',
-    element: (
-      <Suspense>
-        <Home />
-      </Suspense>
-    ),
+    element: lazyLoad(<Home />),
     loader: () => {
       setDocumentTitle('控制面板');
       return null;
@@ -22,11 +22,7 @@ const routes = [
   },
   {
     path: '/danmu',
-    element: (
-      <Suspense>
-        <Versions />
-      </Suspense>
-    ),
+    element: lazyLoad(<Versions />),
     loader: () => {
       setDocumentTitle('弹幕姬');
       return null;
