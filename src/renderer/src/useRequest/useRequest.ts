@@ -26,6 +26,11 @@ export default <T = unknown>(options: AxiosRequestConfig): Promise<CommonRespons
     instance.interceptors.response.use(
       (response: AxiosResponse) => {
         try {
+          console.log(
+            '%c [ instance ]',
+            'font-size:13px; background:pink; color:#bf2c9f;',
+            response
+          );
           const responseBody = JSON.parse(response.request.response);
           resolve(responseBody);
           // 未登录或登录失效，跳转登录页面

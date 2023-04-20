@@ -31,10 +31,17 @@ const AccountLogin = () => {
   let timer: any = null;
   const pollLoginStatus = async (qrcode_key: string) => {
     const res = await pollLoginStatusApi(qrcode_key);
+    console.log(
+      '%c [ pollLoginStatusApi ]',
+      'font-size:13px; background:pink; color:#bf2c9f;',
+      res
+    );
     if (res.code === 86101) {
       setAccountInfo(undefined);
     } else if (res.code === 0) {
+      // todo 保存cookie 设置用户信息
       clearTimeout(timer);
+      setAccountInfo(res);
       return;
     }
 
@@ -44,12 +51,28 @@ const AccountLogin = () => {
       }, 2000);
     } else {
       setIsNeedRefresh(true);
+      setAccountInfo(res);
     }
   };
 
   const handleClick = () => {
     setShowQrcode(true);
     getLoginQrcode();
+  };
+
+  const QrcodeBox = () => {
+    console.log('%c [ xxx ]', 'font-size:13px; background:pink; color:#bf2c9f;', 'rerender');
+    return (
+      <div className={styles['qrcode-box']}>
+        <canvas ref={qrcodeEl}></canvas>
+        {accountInfo && (
+          <div className={styles['qrcode-text']}>
+            {isNeedRefresh && <Button onClick={handleClick}>重新扫码</Button>}
+            <span>{accountInfo.message}</span>
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
