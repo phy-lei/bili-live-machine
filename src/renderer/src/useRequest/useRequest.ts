@@ -15,9 +15,7 @@ export default <T = unknown>(options: AxiosRequestConfig): Promise<CommonRespons
     // 创建一个axios实例
     const obj = {
       baseURL: options.baseURL ? options.baseURL : baseURL,
-      withCredentials: true,
       headers: options.headers ? options.headers : { 'Content-Type': 'application/json' },
-      transformResponse: [],
       ...options,
       url: options.url,
       timeout: 3000
@@ -41,6 +39,7 @@ export default <T = unknown>(options: AxiosRequestConfig): Promise<CommonRespons
       (error: AxiosError) => {
         console.log('%c [ xxx ]', 'font-size:13px; background:pink; color:#bf2c9f;', error);
         Message.error(error.message);
+        reject(error);
       }
     );
     // 发送请求

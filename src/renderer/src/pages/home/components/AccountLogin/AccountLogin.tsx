@@ -1,11 +1,17 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@arco-design/web-react';
 import AtomTitle from '../AtomTitle/AtomTitle';
-import { getLoginQrcodeApi } from '@renderer/apis/bilibili.api';
+import { getLoginQrcodeApi, pollLoginStatusApi } from '@renderer/apis/bilibili.api';
+import qrcode from 'qrcode';
+import styles from './styles/styles.module.less';
 
 const AccountLogin = () => {
   const qrcodeEl = useRef<HTMLCanvasElement>(null);
   const [showQrcode, setShowQrcode] = useState(false);
+
+  const [isNeedRefresh, setIsNeedRefresh] = useState(false);
+
+  const [accountInfo, setAccountInfo] = useState<Awaited<ReturnType<typeof pollLoginStatusApi>>>();
 
   const save = () => {
     console.log('%c [ xxx ]', 'font-size:13px; background:pink; color:#bf2c9f;', 123);
@@ -14,7 +20,31 @@ const AccountLogin = () => {
 
   const getLoginQrcode = async () => {
     const res = await getLoginQrcodeApi();
-    console.log('%c [ xxx ]', 'font-size:13px; background:pink; color:#bf2c9f;', res);
+    if (res) {
+      qrcode.toCanvas(qrcodeEl.current, res.url, {
+        width: 200
+      });
+      pollLoginStatus(res.qrcode_key);
+    }
+  };
+
+  let timer: any = null;
+  const pollLoginStatus = async (qrcode_key: string) => {
+    const res = await pollLoginStatusApi(qrcode_key);
+    if (res.code === 86101) {
+      setAccountInfo(undefined);
+    } else if (res.code === 0) {
+      clearTimeout(timer);
+      return;
+    }
+
+    if (res.code !== 86038) {
+      timer = setTimeout(() => {
+        pollLoginStatus(qrcode_key);
+      }, 2000);
+    } else {
+      setIsNeedRefresh(true);
+    }
   };
 
   const handleClick = () => {
@@ -25,8 +55,18 @@ const AccountLogin = () => {
   return (
     <AtomTitle title="哔哩哔哩账号" saveHandle={save}>
       <div>
+        {/* 注意不要写成行内组件 会触发rerender
+        若要这么做 得特殊处理成外部组件*/}
         {showQrcode ? (
-          <canvas ref={qrcodeEl}></canvas>
+          <div className={styles['qrcode-box']}>
+            <canvas ref={qrcodeEl}></canvas>
+            {accountInfo && (
+              <div className={styles['qrcode-text']}>
+                {isNeedRefresh && <Button onClick={handleClick}>重新扫码</Button>}
+                <span>{accountInfo.message}</span>
+              </div>
+            )}
+          </div>
         ) : (
           <Button onClick={handleClick}>扫码登录</Button>
         )}
