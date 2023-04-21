@@ -1,6 +1,5 @@
 import $http from '@renderer/useRequest/useRequest';
 import NodeFetch from 'node-fetch';
-import fs from 'node:fs';
 import { QrcodeDto, pollLoginStatusDto } from './bilibili.api.dto';
 
 // 获取登录二维码

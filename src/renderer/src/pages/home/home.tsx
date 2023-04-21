@@ -1,6 +1,6 @@
 import { Tabs } from '@arco-design/web-react';
 import { IconSettings, IconUser, IconList } from '@arco-design/web-react/icon';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import BaseSetting from './components/BaseSetting/BaseSetting';
 import AccountLogin from './components/AccountLogin/AccountLogin';
 import styles from './styles/styles.module.less';
@@ -8,11 +8,12 @@ import styles from './styles/styles.module.less';
 const TabPane = Tabs.TabPane;
 
 const Home = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate('/danmu');
-  };
+  // const handleClick = () => {
+  //   navigate('/danmu');
+  // };
+
   return (
     <div className={styles['settings']}>
       <Tabs className={styles['settings-tabs']} tabPosition="left" type="capsule">
