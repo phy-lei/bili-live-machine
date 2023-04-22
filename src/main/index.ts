@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
-import createIpc from '../ipc/createIpc';
+import createIpc from '../ipc/createIpcMain';
 
 const ipcInit = createIpc();
 

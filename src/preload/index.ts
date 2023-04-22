@@ -1,9 +1,13 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
+import createIpcRenderer from '../ipc/createIpcRenderer';
 
 // Custom APIs for renderer
+const ipcRendererApi = createIpcRenderer();
+
 const api = {
-  openFile: () => ipcRenderer.invoke('dialog:openFile')
+  test2: () => ipcRenderer.invoke('test2'),
+  ...ipcRendererApi()
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to
