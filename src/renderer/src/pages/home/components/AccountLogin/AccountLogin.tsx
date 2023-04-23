@@ -15,7 +15,7 @@ const AccountLogin = () => {
 
   const save = async () => {
     // setShowQrcode(false);
-    const filePath = await (window as any).api.test('test');
+    const filePath = await window.api.test('test');
     console.log('%c [ xxx ]', 'font-size:13px; background:pink; color:#bf2c9f;', filePath);
   };
 

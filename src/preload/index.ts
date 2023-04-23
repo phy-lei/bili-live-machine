@@ -5,10 +5,7 @@ import createIpcRenderer from '../ipc/createIpcRenderer';
 // Custom APIs for renderer
 const ipcRendererApi = createIpcRenderer();
 
-const api = {
-  test2: () => ipcRenderer.invoke('test2'),
-  ...ipcRendererApi()
-};
+const api = ipcRendererApi();
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

@@ -8,9 +8,11 @@ export default () => {
 
   const createApi = () => {
     const api = {};
-    events.forEach((cb, key) => {
+
+    for (const [key, cb] of Object.entries(events)) {
       api[key] = (...args: any[]) => ipcRenderer.invoke(key, ...args);
-    });
+    }
+
     return api;
   };
 

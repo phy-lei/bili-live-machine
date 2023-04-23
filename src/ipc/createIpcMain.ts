@@ -6,11 +6,11 @@ export default () => {
   const { events } = useEvents();
 
   const createApi = () => {
-    events.forEach((cb, key) => {
+    for (const [key, cb] of Object.entries(events)) {
       ipcMain.handle(key, (event, ...args: [any]) => {
         return cb(...args);
       });
-    });
+    }
 
     return createApi;
   };
