@@ -11,3 +11,15 @@ export interface pollLoginStatusDto {
   message: string;
   cookie: Record<string, string>;
 }
+
+export interface UserInfoDto {
+  mid: number;
+  uname: string;
+  userid: string;
+  sign: string;
+  birthday: string;
+  sex: string;
+  nick_free: boolean;
+  rank: string;
+  face: string;
+}
