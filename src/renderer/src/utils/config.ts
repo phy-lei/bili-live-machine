@@ -1,3 +1,5 @@
+import { isObject } from './common.util';
+
 export interface Config {
   uname?: string;
   roomId?: number;
@@ -40,27 +42,37 @@ export interface Config {
 let config: Config = {} as Config;
 
 export default () => {
-  const handlers = {
-    get(target, key, receiver) {
-      return Reflect.get(target, key, receiver);
-    },
-    // 使用value set 不再使用function set策略进行设置
-    set(target, key, value, receiver) {
-      const result = Reflect.set(target, key, value, receiver);
-      console.log('%c [ xxx ]', 'font-size:13px; background:pink; color:#bf2c9f;', target, value);
-      // 保存到本地存储
-      saveConfig(target);
-      return result;
-    }
-  };
+  function reactive(obj: Record<any, any>) {
+    return new Proxy(obj, {
+      get(target, key, receiver) {
+        const value = Reflect.get(target, key, receiver);
+
+        // 如果当前value是对象 则需要递归proxy 否则对于二层以上对象 代理将失败
+        // 比如config.basic.uid = xxx basic下的uid会触发不了拦截
+        if (isObject(value)) {
+          return reactive(value);
+        }
+        return value;
+      },
+      // 使用value set 不再使用function set策略进行设置
+      set(target, key, value, receiver) {
+        const result = Reflect.set(target, key, value, receiver);
+
+        // 保存到本地存储
+        saveConfig(config);
+        return result;
+      }
+    });
+  }
 
   const initConfig = () => {
-    config = new Proxy(getConfig(), handlers);
+    config = reactive(getConfig());
   };
 
   const getConfig = (key?: string) => {
     const config = window.localStorage.getItem('config');
     const parseConfig = JSON.parse(config || '{}');
+
     return key ? parseConfig[key] : parseConfig;
   };
 

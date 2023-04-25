@@ -50,31 +50,35 @@ export async function pollLoginStatusApi(qrcode_key: string): Promise<pollLoginS
   return {} as pollLoginStatusDto;
 }
 
-export async function getUserInfoApi(cookie: NonNullable<Config['cookie']>): Promise<UserInfoDto> {
-  const res: any = await NodeFetch(
-    `https://api.bilibili.com/x/member/web/account?csrf=${dataShowing(cookie['bili_jct'])}`,
-    {
-      headers: {
-        Cookie: dataShowing(cookie.text)
+export async function getUserInfoApi(
+  cookie: NonNullable<Config['cookie']>
+): Promise<UserInfoDto | undefined> {
+  try {
+    const res: any = await NodeFetch(
+      `https://api.bilibili.com/x/member/web/account?csrf=${dataShowing(cookie['bili_jct'])}`,
+      {
+        headers: {
+          Cookie: dataShowing(cookie.text)
+        }
       }
+    ).then((r) => r.json());
+
+    const res2 = await fetch(
+      `https://api.bilibili.com/x/space/wbi/acc/info?mid=${dataShowing(
+        cookie.DedeUserID
+      )}&token=&platform=web&w_rid=dbb87a99db43d7e9222a05f6a9492276&wts=1675238196`
+    ).then((r) => r.json());
+    if (res.code === 0) {
+      Message.success('获取用户信息成功');
+    } else {
+      Message.error(res?.message ?? '获取用户信息失败');
+      throw Error('失败');
     }
-  ).then((r) => r.json());
-
-  const res2 = await fetch(
-    `https://api.bilibili.com/x/space/wbi/acc/info?mid=${dataShowing(
-      cookie.DedeUserID
-    )}&token=&platform=web&w_rid=dbb87a99db43d7e9222a05f6a9492276&wts=1675238196`
-  ).then((r) => r.json());
-
-  if (res.code === 0) {
-    Message.success('获取用户信息成功');
-  } else {
-    Message.error(res?.message ?? '获取用户信息失败');
-    throw Error('失败');
+    return {
+      ...res.data,
+      ...(res2?.code === 0 ? res2.data : {})
+    };
+  } catch (e) {
+    Message.error('获取用户信息失败');
   }
-
-  return {
-    ...res.data,
-    ...(res2?.code === 0 ? res2.data : {})
-  };
 }

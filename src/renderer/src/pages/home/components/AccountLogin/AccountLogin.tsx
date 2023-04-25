@@ -27,6 +27,7 @@ const AccountLogin = () => {
 
   const getUserInfo = async (cookie) => {
     const res = await getUserInfoApi(cookie);
+
     setUserInfo(res);
   };
 
@@ -91,6 +92,10 @@ const AccountLogin = () => {
     setShowQrcode(false);
   };
 
+  const testHandle = () => {
+    config.basic = undefined;
+  };
+
   return (
     <AtomTitle title="哔哩哔哩账号" saveHandle={save}>
       {!userInfo && (
@@ -129,7 +134,7 @@ const AccountLogin = () => {
         )}
 
         <div style={{ marginTop: '12px' }}>
-          <Button>测试弹幕</Button>
+          <Button onClick={testHandle}>测试弹幕</Button>
           <Button style={{ marginLeft: '12px' }} onClick={() => getUserInfo(config.cookie)}>
             获取用户信息
           </Button>
