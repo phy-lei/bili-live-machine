@@ -1,0 +1,55 @@
+.DanHeader {
+  display: flex;
+  .operates {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    -webkit-app-region: no-drag;
+
+    .btn {
+      font-size: 18px;
+      color: #cccccc;
+      cursor: pointer;
+
+      &:hover {
+        color: #5aacea;
+      }
+
+      &.is-active {
+        color: #5aacea;
+      }
+
+      + .btn {
+        margin-left: 10px;
+      }
+
+      &.close {
+        color: #f56565;
+      }
+    }
+  }
+  .up-stat-info {
+    height: 40px;
+    padding: 10px 20px;
+    border-bottom: 1px solid #333333;
+    user-select: none;
+
+    .stat-item {
+      + .stat-item {
+        margin-left: 10px;
+      }
+
+      .label {
+        font-size: 12px;
+        color: #999999;
+      }
+
+      .value {
+        font-size: 16px;
+        color: #ffffff;
+      }
+    }
+  }
+}

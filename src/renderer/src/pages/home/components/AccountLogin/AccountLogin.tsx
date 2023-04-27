@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button, Avatar } from '@arco-design/web-react';
 import AtomTitle from '../AtomTitle/AtomTitle';
 import { getLoginQrcodeApi, pollLoginStatusApi, getUserInfoApi } from '@renderer/apis/bilibili.api';
@@ -8,6 +8,7 @@ import { dataMarking } from '@renderer/utils/data.util';
 import useConfig from '@renderer/utils/config';
 
 const AccountLogin = () => {
+  console.log('%c [ xxx ]', 'font-size:13px; background:pink; color:#bf2c9f;', '组件更新');
   const { config } = useConfig();
 
   const qrcodeEl = useRef<HTMLCanvasElement>(null);
@@ -19,10 +20,15 @@ const AccountLogin = () => {
 
   const [userInfo, setUserInfo] = useState<Awaited<ReturnType<typeof getUserInfoApi>>>();
 
+  useEffect(() => {
+    if (config.cookie) {
+      getUserInfo(config.cookie);
+    }
+  }, []);
+
   const save = async () => {
-    // setShowQrcode(false);
     const filePath = await window.api.test('test');
-    console.log('%c [ xxx ]', 'font-size:13px; background:pink; color:#bf2c9f;', filePath);
+    console.log('%c [ filePath ]', 'font-size:13px; background:pink; color:#bf2c9f;', filePath);
   };
 
   const getUserInfo = async (cookie) => {

@@ -1,4 +1,4 @@
-import { isObject } from './common.util';
+import { isObject } from './is';
 
 export interface Config {
   uname?: string;

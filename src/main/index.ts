@@ -1,10 +1,13 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron';
+import { app, shell, BrowserWindow } from 'electron';
+import * as remote from '@electron/remote/main';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 import createIpc from '../ipc/createIpcMain';
 
 const ipcInit = createIpc();
+
+remote.initialize();
 
 function createWindow(): void {
   // Create the browser window.
@@ -23,6 +26,8 @@ function createWindow(): void {
       allowRunningInsecureContent: false
     }
   });
+
+  remote.enable(mainWindow.webContents);
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();

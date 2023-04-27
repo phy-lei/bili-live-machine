@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 
-const Versions = lazy(() => import('../components/Versions'));
+const Danmaku = lazy(() => import('@renderer/pages/danmaku/danmaku'));
 const Home = lazy(() => import('@renderer/pages/home/home'));
 
 function setDocumentTitle(title: string) {
@@ -21,8 +21,8 @@ const routes = [
     }
   },
   {
-    path: '/danmu',
-    element: lazyLoad(<Versions />),
+    path: '/danmaku',
+    element: lazyLoad(<Danmaku />),
     loader: () => {
       setDocumentTitle('弹幕姬');
       return null;
