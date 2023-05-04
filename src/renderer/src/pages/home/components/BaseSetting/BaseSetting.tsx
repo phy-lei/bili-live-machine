@@ -1,13 +1,17 @@
 import { Form, Input } from '@arco-design/web-react';
+import { useNavigate } from 'react-router-dom';
 import AtomTitle from '../AtomTitle/AtomTitle';
 
 const FormItem = Form.Item;
 
 const BaseSetting = () => {
+  const navigate = useNavigate();
+
   const [form] = Form.useForm();
 
   const save = () => {
     console.log('%c [ xxx ]', 'font-size:13px; background:pink; color:#bf2c9f;', form.getFields());
+    navigate('/danmaku');
   };
 
   return (
